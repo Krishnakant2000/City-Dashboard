@@ -3,18 +3,19 @@ const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
 const initCronJobs = require('./services/cronJobs');
+const cityRoutes = require('./routes/cityRoutes');
 
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB
 connectDB().then(() => {
-    // Initialize cron jobs ONLY after database connects successfully
     initCronJobs();
 });
+
+// API Routes Mounting
+app.use('/api/cities', cityRoutes);
 
 // Health Check Route
 app.get('/', (req, res) => {

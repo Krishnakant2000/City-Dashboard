@@ -6,7 +6,7 @@ const fetchAndUpdateData = async () => {
     console.log('--- Starting Global Cities Data Fetching Sync ---');
 
     try {
-        // 1. Get all 10 cities from our database
+        // Get all 10 cities from our database
         const cities = await City.find();
         if (cities.length === 0) {
             console.log('No cities found in database. Please run the seed script first.');
@@ -19,7 +19,7 @@ const fetchAndUpdateData = async () => {
             return;
         }
 
-        // 2. Fetch real-time currency rates against INR using Frankfurter (No key needed)
+        // Fetch real-time currency rates against INR using Frankfurter (No key needed)
         // We fetch all rates relative to INR in a single call to minimize network requests
         let currencyRates = {};
         try {
@@ -31,7 +31,7 @@ const fetchAndUpdateData = async () => {
             console.error('Failed to fetch currency rates:', err.message);
         }
 
-        // 3. Loop through each city and fetch Weather + AQI
+        // Loop through each city and fetch Weather + AQI
         for (const city of cities) {
             const { lat, lon } = city.coordinates;
 
@@ -82,7 +82,7 @@ const fetchAndUpdateData = async () => {
                 };
                 const population = baselinePopulations[city.name] || 1000000;
 
-                // 4. Update the City Collection with latest data
+                // Update the City Collection with latest data
                 city.latestMetrics = {
                     temperature,
                     humidity,
@@ -93,7 +93,7 @@ const fetchAndUpdateData = async () => {
                 };
                 await city.save();
 
-                // 5. Store data inside historical collection for graphs/trends
+                // Store data inside historical collection for graphs/trends
                 await MetricsHistory.create({
                     cityId: city._id,
                     temperature,
