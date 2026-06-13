@@ -1,10 +1,8 @@
-require('dotenv').config({ path: '../.env' }); // Adjust path if .env is at backend/.env just use require('dotenv').config();
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
-
-// Explicitly configure dotenv since you are running from the backend folder
-require('dotenv').config();
+const initCronJobs = require('./services/cronJobs');
 
 const app = express();
 
@@ -13,7 +11,10 @@ app.use(cors());
 app.use(express.json());
 
 // Connect to MongoDB
-connectDB();
+connectDB().then(() => {
+    // Initialize cron jobs ONLY after database connects successfully
+    initCronJobs();
+});
 
 // Health Check Route
 app.get('/', (req, res) => {
