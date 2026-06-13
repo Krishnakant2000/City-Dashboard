@@ -179,7 +179,7 @@ function App() {
 
                 <div className={`col-span-2 rounded-2xl p-4 border border-white/10 flex items-center justify-between ${getAQIStyle(selectedCity.latestMetrics?.aqi).bg} bg-opacity-20`}>
                   <div>
-                    <span className="text-xs font-semibold uppercase tracking-wider text-white/70">Air Quality Index</span>
+                    <span className="text-xs font-semibold uppercase tracking-wider text-black/70">Air Quality Index</span>
                     <p className={`text-xl font-bold ${getAQIStyle(selectedCity.latestMetrics?.aqi).color}`}>
                       {getAQIStyle(selectedCity.latestMetrics?.aqi).label} (Level {selectedCity.latestMetrics?.aqi})
                     </p>
